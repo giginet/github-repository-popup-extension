@@ -4,12 +4,17 @@ $ ->
   API_BASE = 'https://api.github.com'
   colors = {}
 
+  $powerTip = $('<div>');
+  $powerTip.attr('id', 'powerTip')
+  $('body').append($powerTip)
+
   $.getJSON(chrome.extension.getURL('/resources/colors.json'), (json) ->
     colors = json
   )
 
   $("a").on('mouseover', (e) ->
-    url = $(@).attr('href')
+    $link = $(@)
+    url = $link.attr('href')
     if url.match(URL_REGEX)
       user = RegExp.$2
       repository = RegExp.$3
@@ -21,6 +26,10 @@ $ ->
         languages = (language[0] for language in sorted)
         major = languages[0]
         colorCode = colors[major]
+        $link.data('powertip', major)
+        $link.powerTip
+          placement : 'ne'
+        console.log major
         console.log colorCode
       )
   )

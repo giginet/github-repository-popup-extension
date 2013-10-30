@@ -1,15 +1,19 @@
 (function() {
   $(function() {
-    var API_BASE, URL_REGEX, colors;
+    var $powerTip, API_BASE, URL_REGEX, colors;
     URL_REGEX = '^(https:\/\/github.com)?\/([a-zA-Z0-9_\.\-]+)\/([a-zA-Z0-9_\.\-]+)\/?$';
     API_BASE = 'https://api.github.com';
     colors = {};
+    $powerTip = $('<div>');
+    $powerTip.attr('id', 'powerTip');
+    $('body').append($powerTip);
     $.getJSON(chrome.extension.getURL('/resources/colors.json'), function(json) {
       return colors = json;
     });
     return $("a").on('mouseover', function(e) {
-      var repository, url, user;
-      url = $(this).attr('href');
+      var $link, repository, url, user;
+      $link = $(this);
+      url = $link.attr('href');
       if (url.match(URL_REGEX)) {
         user = RegExp.$2;
         repository = RegExp.$3;
@@ -37,6 +41,11 @@
           })();
           major = languages[0];
           colorCode = colors[major];
+          $link.data('powertip', major);
+          $link.powerTip({
+            placement: 'ne'
+          });
+          console.log(major);
           return console.log(colorCode);
         });
       }
