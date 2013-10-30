@@ -3,6 +3,7 @@ $ ->
   URL_REGEX = '^(https:\/\/github.com)?\/([a-zA-Z0-9_\.\-]+)\/([a-zA-Z0-9_\.\-]+)\/?$'
   API_BASE = 'https://api.github.com'
   colors = {}
+  cache = {}
 
   $powerTip = $('<div>');
   $powerTip.attr('id', 'powerTip')
@@ -12,35 +13,46 @@ $ ->
     colors = json
   )
 
-  $("a").on('mouseover', (e) ->
+  $("a").on('mouseenter', (e) ->
     $link = $(@)
     url = $link.attr('href')
     if url.match(URL_REGEX)
       user = RegExp.$2
       repository = RegExp.$3
-      
-      $.get("#{API_BASE}/repos/#{user}/#{repository}/languages", (languages) ->
-        sorted = ([key, value] for key, value of languages).sort( (a, b) ->
-          a[1] < b[1]
-        )
-        languages = (language[0] for language in sorted)
-        major = languages[0]
-        
-        return unless major
+      id = "#{user}/#{repository}"
 
-        colorCode = colors[major]
+      addToolTip = (name) ->
+        colorCode = colors[name]
         $tip = $('<div>')
         $circle = $('<div>').addClass('language_circle')
         $circle.css('background': colorCode)
         $tip.append($circle)
         $languageLabel = $('<span>').addClass('language_name')
-        $languageLabel.text(major)
+        $languageLabel.text(name)
         $tip.append($languageLabel)
 
-        $link.data('powertipjq', $tip)
-        $link.powerTip
-          placement : 'nw'
-        console.log major
-        console.log colorCode
-      )
+        $target = $link
+        if $link.hasClass('repo-list-item')
+          $target = $link.find('span.repo-and-owner')
+
+        $target.data('powertipjq', $tip)
+        $target.powerTip
+          placement : 'n'
+        $.powerTip.show($target)
+
+      if cache[id]?
+        name = cache[id]
+        addToolTip(name)
+      else
+        $.get("#{API_BASE}/repos/#{user}/#{repository}/languages", (languages) ->
+          sorted = ([key, value] for key, value of languages).sort( (a, b) ->
+            a[1] < b[1]
+          )
+          languages = (language[0] for language in sorted)
+          major = languages[0]
+          
+          return unless major
+          addToolTip(major)
+          cache[id] = major
+        )
   )
