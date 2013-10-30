@@ -12,4 +12,10 @@ $radius: 5px;
   margin-left: 3px;
   font-size: 13px;
   font-weight: bold;
+
+  &.unknown {
+    color: #aaa;
+    font-weight: normal;
+  }
+
 }

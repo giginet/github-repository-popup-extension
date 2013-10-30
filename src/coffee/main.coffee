@@ -2,6 +2,7 @@ $ ->
 
   URL_REGEX = '^(https:\/\/github.com)?\/([a-zA-Z0-9_\.\-]+)\/([a-zA-Z0-9_\.\-]+)\/?$'
   API_BASE = 'https://api.github.com'
+  UNKNOWN_COLOR = '#333'
   colors = {}
   cache = {}
 
@@ -22,12 +23,16 @@ $ ->
       id = "#{user}/#{repository}"
 
       addToolTip = (name) ->
-        colorCode = colors[name]
+        name = 'Unknown' unless name?
+        isUnknown = name == 'Unknown'
+        colorCode = colors[name] ? UNKNOWN_COLOR
+         
         $tip = $('<div>')
         $circle = $('<div>').addClass('language_circle')
         $circle.css('background': colorCode)
         $tip.append($circle)
         $languageLabel = $('<span>').addClass('language_name')
+        $languageLabel.addClass('unknown') if isUnknown
         $languageLabel.text(name)
         $tip.append($languageLabel)
 
@@ -51,8 +56,7 @@ $ ->
           languages = (language[0] for language in sorted)
           major = languages[0]
           
-          return unless major
           addToolTip(major)
-          cache[id] = major
+          cache[id] = major ? 'Unknown'
         )
   )

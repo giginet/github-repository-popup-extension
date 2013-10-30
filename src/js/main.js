@@ -1,8 +1,9 @@
 (function() {
   $(function() {
-    var $powerTip, API_BASE, URL_REGEX, cache, colors;
+    var $powerTip, API_BASE, UNKNOWN_COLOR, URL_REGEX, cache, colors;
     URL_REGEX = '^(https:\/\/github.com)?\/([a-zA-Z0-9_\.\-]+)\/([a-zA-Z0-9_\.\-]+)\/?$';
     API_BASE = 'https://api.github.com';
+    UNKNOWN_COLOR = '#333';
     colors = {};
     cache = {};
     $powerTip = $('<div>');
@@ -20,8 +21,12 @@
         repository = RegExp.$3;
         id = "" + user + "/" + repository;
         addToolTip = function(name) {
-          var $circle, $languageLabel, $target, $tip, colorCode;
-          colorCode = colors[name];
+          var $circle, $languageLabel, $target, $tip, colorCode, isUnknown, _ref;
+          if (name == null) {
+            name = 'Unknown';
+          }
+          isUnknown = name === 'Unknown';
+          colorCode = (_ref = colors[name]) != null ? _ref : UNKNOWN_COLOR;
           $tip = $('<div>');
           $circle = $('<div>').addClass('language_circle');
           $circle.css({
@@ -29,6 +34,9 @@
           });
           $tip.append($circle);
           $languageLabel = $('<span>').addClass('language_name');
+          if (isUnknown) {
+            $languageLabel.addClass('unknown');
+          }
           $languageLabel.text(name);
           $tip.append($languageLabel);
           $target = $link;
@@ -68,11 +76,8 @@
               return _results;
             })();
             major = languages[0];
-            if (!major) {
-              return;
-            }
             addToolTip(major);
-            return cache[id] = major;
+            return cache[id] = major != null ? major : 'Unknown';
           });
         }
       }
