@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Github Repository Popup Extension",
-  "description": "This extension makes it possible to popup github repository information.",
+  "name": "Github Repository Popup",
+  "description": "This extension makes it possible to popup github repository language.",
   "version": "1.0",
   "content_scripts" : [
     {
@@ -11,6 +11,11 @@
       "js" : ["src/lib/jquery-2.0.3.min.js", "src/lib/jquery.powertip.min.js", "src/js/main.js"]
     }
   ],
+  "icons": { 
+    "16":"resources/icon/icon-16.png", 
+    "48":"resources/icon/icon-48.png", 
+    "128":"resources/icon/icon-128.png" 
+        }, 
   "web_accessible_resources" : [
     "resources/colors.json"
   ],
