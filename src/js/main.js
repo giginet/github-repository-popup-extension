@@ -18,7 +18,7 @@
         user = RegExp.$2;
         repository = RegExp.$3;
         return $.get("" + API_BASE + "/repos/" + user + "/" + repository + "/languages", function(languages) {
-          var colorCode, key, language, major, sorted, value;
+          var $circle, $languageLabel, $tip, colorCode, key, language, major, sorted, value;
           sorted = ((function() {
             var _results;
             _results = [];
@@ -40,10 +40,22 @@
             return _results;
           })();
           major = languages[0];
+          if (!major) {
+            return;
+          }
           colorCode = colors[major];
-          $link.data('powertip', major);
+          $tip = $('<div>');
+          $circle = $('<div>').addClass('language_circle');
+          $circle.css({
+            'background': colorCode
+          });
+          $tip.append($circle);
+          $languageLabel = $('<span>').addClass('language_name');
+          $languageLabel.text(major);
+          $tip.append($languageLabel);
+          $link.data('powertipjq', $tip);
           $link.powerTip({
-            placement: 'ne'
+            placement: 'nw'
           });
           console.log(major);
           return console.log(colorCode);

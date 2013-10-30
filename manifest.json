@@ -7,7 +7,7 @@
   "content_scripts" : [
     {
       "matches" :["https://github.com/*"],
-      "css" : ["resources/css/jquery.powertip.min.css"],
+      "css" : ["resources/css/jquery.powertip-light.min.css", "resources/css/tip.css"],
       "js" : ["src/lib/jquery-2.0.3.min.js", "src/lib/jquery.powertip.min.js", "src/js/main.js"]
     }
   ],

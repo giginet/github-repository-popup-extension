@@ -1,0 +1,11 @@
+.language_circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  display: inline-block; }
+
+.language_name {
+  color: #333;
+  margin-left: 3px;
+  font-size: 13px;
+  font-weight: bold; }

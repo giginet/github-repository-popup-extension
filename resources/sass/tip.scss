@@ -1,0 +1,15 @@
+$radius: 5px;
+
+.language_circle {
+  width: $radius * 2;
+  height: $radius * 2;
+  border-radius: $radius;
+  display: inline-block;
+}
+
+.language_name {
+  color: #333;
+  margin-left: 3px;
+  font-size: 13px;
+  font-weight: bold;
+}
