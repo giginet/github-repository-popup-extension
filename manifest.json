@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Github Repository Popup Extension",
+  "description": "This extension makes it possible to popup github repository information.",
+  "version": "1.0",
+  "content_scripts" : [
+    {
+      "matches" :["https://github.com/*"],
+      "css" : [],
+      "js" : ["src/js/main.js"]
+    }
+  ],
+  "permissions": [
+    "https://github.com/",
+    "https://api.github.com/"
+  ]
+}
