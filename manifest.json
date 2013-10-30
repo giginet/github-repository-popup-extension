@@ -11,6 +11,9 @@
       "js" : ["src/lib/jquery-2.0.3.min.js", "src/js/main.js"]
     }
   ],
+  "web_accessible_resources" : [
+    "resources/colors.json"
+  ],
   "permissions": [
     "https://github.com/",
     "https://api.github.com/"
